@@ -32,6 +32,8 @@ class BlogController {
 
   // add blog
   static async addBlog(req, res) {
+    // console.log(req.body)
+    // console.log(req.files)
     const { title, description, content, category, date, metaKeys } = req.body;
     try {
       const founded = await BlogModal.getBlogByTitle(title);
@@ -41,8 +43,8 @@ class BlogController {
       var fileName = req.files.image.name;
       fileName = Date.now() + "_" + fileName;
       const filePath = path.join(
-        // path.dirname(process.mainModule.filename),
-        "../public/blogs/",
+        path.dirname(process.mainModule.filename),
+        "public/blogs/",
         fileName
       );
 
