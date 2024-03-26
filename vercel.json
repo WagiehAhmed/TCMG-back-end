@@ -19,9 +19,7 @@
                 "OPTIONS"
             ],
             "headers": {
-                "Access-Control-Allow-origin": "*",
-                "Accept": "application/json"
-
+                "Access-Control-Allow-origin": "*"
             }
         }
     ]
