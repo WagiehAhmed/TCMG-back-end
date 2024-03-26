@@ -20,7 +20,8 @@
             ],
             "headers": {
                 "Access-Control-Allow-origin": "*",
-                "Content-Type": "multipart/form-data"
+                "Accept": "application/json"
+
             }
         }
     ]
