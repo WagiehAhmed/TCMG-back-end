@@ -40,6 +40,7 @@ class BlogController {
       if (founded) {
         return res.status(400).json({ message: "This blog already exists" });
       }
+      
       var fileName = req.files.image.name;
       fileName = Date.now() + "_" + fileName;
       const filePath = path.join(
@@ -47,6 +48,7 @@ class BlogController {
         "../public/blogs/",
         fileName
       );
+
       const image = fileName;
       const blog = await BlogModal.addBlog(
         title,
