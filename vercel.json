@@ -20,7 +20,7 @@
             ],
             "headers": {
                 "Access-Control-Allow-origin": "*",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             }
         }
     ]
