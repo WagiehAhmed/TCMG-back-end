@@ -19,7 +19,8 @@
                 "OPTIONS"
             ],
             "headers": {
-                "Access-Control-Allow-origin": "*"
+                "Access-Control-Allow-origin": "*",
+                "Content-Type": "application/json"
             }
         }
     ]
