@@ -43,11 +43,10 @@ class BlogController {
       var fileName = req.files.image.name;
       fileName = Date.now() + "_" + fileName;
       const filePath = path.join(
-        path.dirname(process.mainModule.filename),
-        "public/blogs/",
+        __dirname,
+        "../public/blogs/",
         fileName
       );
-
       const image = fileName;
       const blog = await BlogModal.addBlog(
         title,
@@ -58,6 +57,7 @@ class BlogController {
         date,
         metaKeys
       );
+      
       if (blog) {
         req.files.image.mv(filePath);
         return res.status(200).json({ blog });
