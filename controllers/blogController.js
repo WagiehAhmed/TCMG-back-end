@@ -1,5 +1,6 @@
 const BlogModal = require("../models/Blog");
 const path = require("path");
+const cloudinary =require("cloudinary")
 
 class BlogController {
   // get all blogs
@@ -25,34 +26,48 @@ class BlogController {
     const blogs = await BlogModal.search(req.params.keyword);
     // console.log(result);
     if (blogs) {
-      return res.status(200).json({ blogs});
+      return res.status(200).json({ blogs });
     }
     return res.status(400).json({ message: "fail" });
   }
 
   // add blog
   static async addBlog(req, res) {
-    console.log(req.body)
-    console.log(req.files)
-    const { title, description, content, category, date, metaKeys,image } = req.body;
+    console.log(req.body);
+    const { title, description, content, category, date, metaKeys, image } =
+      req.body;
+
     try {
       const founded = await BlogModal.getBlogByTitle(title);
       if (founded) {
         return res.status(400).json({ message: "This blog already exists" });
       }
-      
+
+
+      const uploadedImage =await cloudinary.uploader.upload(
+        image,
+        {
+          upload_preset:"unsigned_upload",  
+          allowed_formats :["png","jpg","jpeg","svg","icon","jfif","webp"]
+        },
+        function (error, result) {
+          if(error){console.log(error)}
+          console.log(result);
+        }
+      );
+
       const blog = await BlogModal.addBlog(
         title,
         description,
         content,
         category,
-        image,
+        uploadedImage.public_id,
         date,
         metaKeys
       );
-      
+
       if (blog) {
-        return res.status(200).json({ blog });
+        return res.status(200).json({ blog ,uploadedImage});
       }
       return res.status(400).json({ message: "failed" });
     } catch (err) {
@@ -66,7 +81,7 @@ class BlogController {
     //   if (founded) {
     //     return res.status(400).json({ message: "This blog already exists" });
     //   }
-      
+
     //   var fileName = req.files.image.name;
     //   fileName = Date.now() + "_" + fileName;
     //   const filePath = path.join(
@@ -85,7 +100,7 @@ class BlogController {
     //     date,
     //     metaKeys
     //   );
-      
+
     //   if (blog) {
     //     req.files.image.mv(filePath);
     //     return res.status(200).json({ blog });
@@ -130,21 +145,21 @@ class BlogController {
           path.dirname(process.mainModule.filename),
           "public/blogs/",
           fileName
-          );
-          
-          // console.log(affectedRows);
-          const image = fileName;
-          const updatedBlog = await BlogModal.updateBlog(
-            title,
-            description,
-            content,
-            category,
-            image,
-            metaKeys,
-            date,
-            id
-            );
-            if (updatedBlog) {
+        );
+
+        // console.log(affectedRows);
+        const image = fileName;
+        const updatedBlog = await BlogModal.updateBlog(
+          title,
+          description,
+          content,
+          category,
+          image,
+          metaKeys,
+          date,
+          id
+        );
+        if (updatedBlog) {
           req.files.image.mv(filePath);
           return res.status(200).json({ updatedBlog });
         } else {
