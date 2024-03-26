@@ -41,8 +41,8 @@ class BlogController {
       var fileName = req.files.image.name;
       fileName = Date.now() + "_" + fileName;
       const filePath = path.join(
-        path.dirname(process.mainModule.filename),
-        "public/blogs/",
+        // path.dirname(process.mainModule.filename),
+        "../public/blogs/",
         fileName
       );
 
