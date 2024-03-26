@@ -7,22 +7,25 @@ const app =  express();
 
 
 
-
-
 // // const bodyParser = require("body-parser"); 
 // // app.use(bodyParser.json());
 
 // database connection 
 const pool = require("./util/connectToDb");
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb',extended:true}));
 app.use(express.static("public"));
 
 app.use(cors());
 app.use(helmet());
 dotenv.config();
 app.use(express_fileUpload());
+
+
+// cloudinary
+const cloudinary = require("./util/cloudinary")
+
 
 
 // const logger = require("./middlerwares/logger")

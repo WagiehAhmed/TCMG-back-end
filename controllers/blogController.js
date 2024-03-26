@@ -32,24 +32,15 @@ class BlogController {
 
   // add blog
   static async addBlog(req, res) {
-    // console.log(req.body)
-    // console.log(req.files)
-    const { title, description, content, category, date, metaKeys } = req.body;
+    console.log(req.body)
+    console.log(req.files)
+    const { title, description, content, category, date, metaKeys,image } = req.body;
     try {
       const founded = await BlogModal.getBlogByTitle(title);
       if (founded) {
         return res.status(400).json({ message: "This blog already exists" });
       }
       
-      var fileName = req.files.image.name;
-      fileName = Date.now() + "_" + fileName;
-      const filePath = path.join(
-        __dirname,
-        "../public/blogs/",
-        fileName
-      );
-
-      const image = fileName;
       const blog = await BlogModal.addBlog(
         title,
         description,
@@ -61,13 +52,48 @@ class BlogController {
       );
       
       if (blog) {
-        req.files.image.mv(filePath);
         return res.status(200).json({ blog });
       }
       return res.status(400).json({ message: "failed" });
     } catch (err) {
       return res.status(400).json({ message: err.message });
     }
+    // // console.log(req.body)
+    // // console.log(req.files)
+    // const { title, description, content, category, date, metaKeys, } = req.body;
+    // try {
+    //   const founded = await BlogModal.getBlogByTitle(title);
+    //   if (founded) {
+    //     return res.status(400).json({ message: "This blog already exists" });
+    //   }
+      
+    //   var fileName = req.files.image.name;
+    //   fileName = Date.now() + "_" + fileName;
+    //   const filePath = path.join(
+    //     __dirname,
+    //     "../public/blogs/",
+    //     fileName
+    //   );
+
+    //   const image = fileName;
+    //   const blog = await BlogModal.addBlog(
+    //     title,
+    //     description,
+    //     content,
+    //     category,
+    //     image,
+    //     date,
+    //     metaKeys
+    //   );
+      
+    //   if (blog) {
+    //     req.files.image.mv(filePath);
+    //     return res.status(200).json({ blog });
+    //   }
+    //   return res.status(400).json({ message: "failed" });
+    // } catch (err) {
+    //   return res.status(400).json({ message: err.message });
+    // }
   }
   // delete blog
   static async deleteBlog(req, res) {
