@@ -23,10 +23,6 @@ dotenv.config();
 app.use(express_fileUpload());
 
 
-// cloudinary
-const cloudinary = require("./util/cloudinary")
-
-
 
 // const logger = require("./middlerwares/logger")
 // app.use(logger);
