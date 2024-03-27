@@ -42,21 +42,21 @@ class BlogController {
         return res.status(400).json({ message: "This blog already exists" });
       }
 
-      // var fileName = req.files.image.name;
-      // fileName = Date.now() + "_" + fileName;
-      // const filePath = path.join(
-      //   __dirname,
-      //   "../public/blogs/",
-      //   fileName
-      // );
+      var fileName = req.files.image.name;
+      fileName = Date.now() + "_" + fileName;
+      const filePath = path.join(
+        __dirname,
+        "../public/blogs/",
+        fileName
+      );
 
-      // const image = fileName;
+      const image = fileName;
       const blog = await BlogModal.addBlog(
         title,
         description,
         content,
         category,
-        "image",
+        image,
         date,
         metaKeys
       );
@@ -78,6 +78,8 @@ class BlogController {
       if (blogId) {
         const affectedRows = await BlogModal.deleteBlog(id);
         if (affectedRows) {
+
+          // TODO:  delete from blogs folder
           return res.status(200).json({ blogId });
         } else {
           throw new Error("Invalid id");
